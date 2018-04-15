@@ -1,0 +1,24 @@
+.pb {
+    padding: 5px;
+    margin: 5px;
+    border: solid #ccc 1px;
+}
+
+.pbTitle {
+    font-size: 18px;
+    margin-top: 10px;
+    padding-bottom: 5px;
+    border-bottom: solid #ccc 1px;
+}
+
+.pbInfo {
+    font-size: 15px;
+    margin-bottom: 0;
+ }
+
+ .gameCover {
+    width: 85px;
+    border: solid #ccc 1px;
+    margin: 0 auto;
+}  
+ 
