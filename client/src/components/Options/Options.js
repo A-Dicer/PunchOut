@@ -1,16 +1,29 @@
 import React from "react";
 import "./options.css";
-import Icon from "../../components/Icon";
-import PB from "../../components/PB";
-
 
 const Options = props =>
 
-<div className="col-12 border">
-    <label className="switch">
-        <input type="checkbox" />
-        <span className="slider round"></span>
-    </label>
+<div className="col-12">
+    <div className="row">
+        <div className="col-12"> 
+            <div className="row rowOpt">
+                <div className="col-8 titleOpt text-left">
+                    {props.title}
+                </div>
+                <div className="col-4 text-right">
+                    <label className="switch">
+                        <input 
+                            type="checkbox" 
+                            name={props.name} 
+                            checked={props.info} 
+                            onChange={props.action}
+                        />
+                        <span className="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>  
  
 export default Options;

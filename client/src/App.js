@@ -10,7 +10,7 @@ const App = () =>
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/logout" component={Login} />
-        <Route exact path="/main" component={Main} />
+        <Route exact path="/main/:id" component={Main} />
         <Route component={NoMatch} />
       </Switch>
     </div>

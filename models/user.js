@@ -13,6 +13,12 @@ const userSchema = new Schema({
      mtpo:  [{ type: Schema.Types.ObjectId, ref: 'Splits' }],
       spo:  [{ type: Schema.Types.ObjectId, ref: 'Splits' }], 
     powii:  [{ type: Schema.Types.ObjectId, ref: 'Splits' }] 
+  },
+  options: { 
+    gameInfo: { type: Boolean, default: true},
+    fightInfo: { type: Boolean, default: false},
+    individualInfo: { type: Boolean, default: true},
+    splitTimes: { type: Boolean, default: true},
   }
 });
 

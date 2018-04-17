@@ -1,15 +1,14 @@
-/* The switch - the box around the slider */
+
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    top: 7px;
+    width: 48px;
+    height: 20px;
   }
-  
-  /* Hide default HTML checkbox */
+
   .switch input {display:none;}
   
-  /* The slider */
   .slider {
     position: absolute;
     cursor: pointer;
@@ -25,8 +24,8 @@
   .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 13px;
+    width: 13px;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -48,11 +47,27 @@
     transform: translateX(26px);
   }
   
-  /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
   }
   
   .slider.round:before {
     border-radius: 50%;
+  }
+
+  .rowOpt {
+      background: 
+        linear-gradient(
+          to bottom right, 
+          rgba(2, 2, 2, 0.5), 
+          rgba(126, 133, 143, 0.5)
+        );
+      border-radius: 5px;
+      margin: 5px auto;
+  }
+
+  .titleOpt {
+      padding-top: 5px;
+      padding-left: 20px;
+      color: #fff;
   }

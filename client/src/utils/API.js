@@ -1,77 +1,25 @@
 import axios from "axios";
 
 export default {
-  // Gets all users
-  getUsers: function() {
-    return axios.get("/api/users");
-  },
-  
-  // Gets the user with the given id
-  getUser: function(id) {
-    return axios.get("/api/users/" + id);
-  },
 
-  // Gets all Games
-  getGames: function() {
-    return axios.get("/api/games/");
-  },
+//-------------------------------------- User Api --------------------------------------
+  getUsers: function() {return axios.get("/api/users")}, // Gets all users
+  getUser: function(id) {return axios.get("/api/users/" + id)}, // Gets the user with the given id
+  updateUser: function(id, info){return axios.put("/api/users/" + id, info)}, // Update User
 
-  // Gets all Games
-  getFighters: function() {
-    return axios.get("/api/fighters/");
-  },
+//-------------------------------------- Games Api -------------------------------------
+  getGames: function() {return axios.get("/api/games/")}, // Gets all Games
 
+//------------------------------------- Fighter Api ------------------------------------
+  getFighters: function() {return axios.get("/api/fighters/")}, // Gets all fighters
+  getFighter: function(name) {return axios.get("/api/fighters/name/" + name)}, // Gets the fighter by name
 
-    // Gets the fighter by the given ID
-    getFighter: function(name) {
-      return axios.get("/api/fighters/name/" + name);
-    },
+//-------------------------------------- Splits Api ------------------------------------
+  getSplit: function(id) {return axios.get("/api/splits/" + id)}, // Gets splits with the given id
+  saveNewSplits: function(splitData) {return axios.post("/api/splits", splitData)}, // Saves new splits to the database
 
-   // Gets the user with the given id
-   getSplit: function(id) {
-    return axios.get("/api/splits/" + id);
-  },
-
-  // Gets all Races
-  getRaces: function() {
-    return axios.get("/api/races");
-  },
-
-  // Saves new splits to the database
-  saveNewSplits: function(splitData) {
-    return axios.post("/api/splits", splitData);
-  },
-  
-  // Gets all Races
-  getLevels: function() {
-    return axios.get("api/levels");
-  },
-
-  //Gets all Msgs
-  getMsgs: function() {
-    return axios.get("api/msg");
-  },
-
-   // Gets a Msg with the given name
-   getMsg: function(name) {
-    return axios.get("/api/msg/name/" + name);
-  },
-
-   // Saves a message to the database
-   saveMsg: function(msgData) {
-    return axios.post("/api/msg", msgData);
-  },
-
-  twitchAuth: function(){
-    console.log("running auth")
-    return axios.get("/api/auth/twitch");
-  },
-
-  twitchCallback: function(){
-    return axios.get("/api/auth/twitch/callback")
-  },
-
-  logout: function() {
-    return axios.get("/api/auth/logout");
-  },
+//---------------------------------------- Auth Api ------------------------------------
+  twitchAuth: function(){return axios.get("/api/auth/twitch")}, // Login with Twitch
+  twitchCallback: function(){return axios.get("/api/auth/twitch/callback")}, //Twitch Callback Route
+  logout: function() {return axios.get("/api/auth/logout")}, //logout
 };

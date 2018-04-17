@@ -1,60 +1,44 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
-// import { Fade } from "../../components/Animation";
 import "./Main.css";
 import User from "../../components/User";
-
-const io = require('socket.io-client')  
-const socket = io() 
 
 class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: [],
-            games: [],
+            
         }
-        
-        // socket.on('get races', (payload) => {   
-        //     this.updateCodeFromSockets(payload)
-        // })
-    
+
     }
-
-    // updateCodeFromSockets(payload) {
-    //     this.setState({races: payload})
-    //   }
-
-    // when component mounts get created races
+    // when component mounts get user by params in URL
     componentDidMount() {
-        this.loadGames(); 
+        this.getUser(this.props.match.params.id); 
     }
 
-    loadGames = () => {
-        API.getGames()
-            .then(res => { 
-                // eslint-disable-next-line         
-                res.data.sess.passport && res.data.sess.passport.user
-                ? (this.setState({games: res.data.results}), this.getUser(res.data.sess.passport.user._id) )
-                : (console.log("not logged in"), this.props.history.push("/"))
-            }
-        ).catch(err => console.log(err));
-    };
+// -------------------------------------------- getUser ----------------------------------------------------
+//Get user by ID and check to make sure signed in and only on there personal page
 
     getUser = (id) => {
         API.getUser(id)
             .then(res => { 
-                this.setState({currentUser: res.data.results})    
+            if(!res.data.results || id !== res.data.results._id) this.props.history.push("/")
+            else this.setState({user: id})  
             }
         ).catch(err => console.log(err));
     };
+
+// ------------------------------------------ Fontend Code -------------------------------------------------
 
     render() {
     return (
         <div className="container">
             <div className="row" id="outer">
                 <div className="col-lg-6 ">
-                  <User user={this.state.currentUser} games={this.state.games} />
+                { this.state.user
+                    ? <User user={this.state.user}/>
+                    : <h4 className="text-center"> You have used an incorrect ID </h4>
+                }
                 </div>
                 <div className="col-lg-6 ">
                   

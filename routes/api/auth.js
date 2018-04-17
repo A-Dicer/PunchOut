@@ -2,18 +2,16 @@ const router = require("express").Router();
 const authController = require("../../controllers/authController");
 const passport = require("passport");
 
-// Matches with "/api/auth"
+// --------------------- Matches with "/api/auth" --------------------------
 
-//twitch sign in
-router.route("/twitch").get(passport.authenticate("twitch"))
+router.route("/twitch").get(passport.authenticate("twitch")) //twitch sign in
 
 router.route("/twitch/callback")
 .get(passport.authenticate("twitch", { failureRedirect: "/" }), 
   function(req, res) {
-    res.redirect("http://localhost:3000/Main");
+    res.redirect("http://localhost:3000/Main/" + req.session.passport.user._id);
 });
 
-//logout
-router.route("/logout").get(authController.logout)
+router.route("/logout").get(authController.logout) //logout
   
 module.exports = router;

@@ -37,15 +37,11 @@ module.exports = {
     else { res.json({ error: "Please login", statusCode: 401 }) }
   },
 
-  findByName: function (req, res) {
-    if (req.user) {
-      db.User
-        .findOne(req.params)
-        .then(dbModel => res.json({results: dbModel, sess: req.session}))
-        .catch(err => res.status(422).json(err));
-    } else { 
-        res.json({ error: "Please login", statusCode: 401 }) 
-    }
-  },
+  update: function(req, res) {
+    db.User
+    .findOneAndUpdate({ _id: req.params.id }, req.body )
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422).json(err));
+},
 
 };
