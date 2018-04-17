@@ -44,32 +44,21 @@ passport.use( new twitchStrategy({
   }
 ));
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
+passport.serializeUser(function(user, done){done(null, user)});
+passport.deserializeUser(function(user, done){done(null, user)});
 
 //------------------------------- Mongoose ----------------------------------------------
 mongoose.Promise = global.Promise;
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/podb",
-  {
-    useMongoClient: true
-  }
+  { useMongoClient: true }
 );
 
 //----------------------------- Start Server --------------------------------------------
 const PORT = process.env.PORT || 3002;
-
-const server = app.listen(PORT, function(err) {  
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
-  }
+const server = app.listen(PORT, function(err) { 
+  if (err) console.log(err); 
+  else console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`); 
 });
 
 //------------------------------ Socket.io ----------------------------------------------

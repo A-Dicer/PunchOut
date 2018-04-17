@@ -13,16 +13,14 @@ class User extends Component {
                 splits: {
                     mtpo: [],
                     spo: [],
-                    powii: [],
+                    powii: []
                 }
             },   
         }
     }
 
     // when component mounts get user by id
-    componentDidMount() {  
-        this.getUser(this.props.user)
-    }
+    componentDidMount() {this.getUser(this.props.user)}
 
 // -------------------------------------------- getUser ----------------------------------------------------
 //grabs data from server based on user ID
@@ -70,11 +68,9 @@ class User extends Component {
 // --------------------------------------------- logOut ----------------------------------------------------
 //redirects to logout page....
 
-    logOut = () => { 
-        window.location = "/logout"; 
-    };
+    logOut = () => {window.location = "/logout"};
     
-// ------------------------------------------ Fontend Code -------------------------------------------------
+// ------------------------------------------ Frontend Code ------------------------------------------------
 
     render() {
         return (
@@ -86,7 +82,6 @@ class User extends Component {
                         <Icon  id="fas fa-sign-out-alt signOut" />
                     </div>
                 </div>
-                
                 <div className="card-body text-center">
                     <img className="userImg" src={this.state.user.imgLink} alt="Card cap" />
                     <p className="card-text"> Welcome to the Splitter.  If you have any questions about how the site works just ask in the Punch-Out!! Discord. </p>
@@ -100,25 +95,24 @@ class User extends Component {
                             
                             { !this.state.user.splits.mtpo && this.state.user.splits.spo && this.state.user.splits.powii
                                 ?<div> 
-                                        {
-                                            this.state.user.splits.mtpo.length
-                                            ? <PB info={this.state.user.splits.mtpo} title="Mike Tyson's Punch-Out!!" img="mtpoBoxArt.jpg"/>
-                                            : console.log()
-                                        } {
-                                            this.state.user.splits.spo.length
-                                            ? <PB info={this.state.user.splits.spo} title="Super Punch-Out!!" img="spoBoxArt.jpg"/>
-                                            : console.log()
-                                        } {
-                                            this.state.user.splits.powii.length
-                                            ? <PB info={this.state.user.splits.powii} title="Punch-Out!! (Wii)" img="powiiBoxArt.jpg"/>
-                                            : console.log()
-                                        }
+                                    {
+                                        this.state.user.splits.mtpo.length
+                                        ? <PB info={this.state.user.splits.mtpo} title="Mike Tyson's Punch-Out!!" img="mtpoBoxArt.jpg"/>
+                                        : console.log()
+                                    } {
+                                        this.state.user.splits.spo.length
+                                        ? <PB info={this.state.user.splits.spo} title="Super Punch-Out!!" img="spoBoxArt.jpg"/>
+                                        : console.log()
+                                    } {
+                                        this.state.user.splits.powii.length
+                                        ? <PB info={this.state.user.splits.powii} title="Punch-Out!! (Wii)" img="powiiBoxArt.jpg"/>
+                                        : console.log()
+                                    }
                                 </div>
                                 :  <p className="card-text"><small className="text-muted"> You do not have any Saved Splits</small></p> 
                             }
                             </div>    
                         </div>
-
                         <div className="col-12 head">
                         </div>
 

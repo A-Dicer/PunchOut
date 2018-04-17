@@ -6,35 +6,17 @@ import Icon from "../../components/Icon";
 
 class Login extends Component {
 
-  componentWillMount() {
-    API.logout()
-      .catch(err => console.log(err))
-  }
+  componentWillMount() { API.logout().catch(err => console.log(err))}
 
+// ---------------------------------------- handleFormSubmit -----------------------------------------------
+//Action for signing people in when button is pressed.
 
   handleFormSubmit = event => {
     event.preventDefault();
-      console.log("twitchAuth started")
-      window.location = "http://localhost:3002/api/auth/twitch"; 
+    window.location = "http://localhost:3002/api/auth/twitch"; 
   };
 
-  // handleTest = event => {
-  //   event.preventDefault();
-  //   const splitData = {
-  //     user: "5ab9c098aed6440669046e4a",
-  //     game: "5ab975e0af67235b3dfef53a", 
-  //     category: "Any%",
-  //     splits: [
-  //       { fighter: "5ab975e0af67235b3dfef53b", pb: { KD1: null, KD2: null, time: null}, gold: { KD1: null, KD2: null, time: null}},
-  //       { fighter: "5ab975e0af67235b3dfef53c", pb: { KD1: null, KD2: null, time: null}, gold: { KD1: null, KD2: null, time: null}},
-  //     ],
-  //   }
-  //     console.log("twitchAuth started")
-  //     API.saveNewSplits(splitData)
-  //     .then(console.log("worked?")) 
-  //     .catch(err => console.log(err));
-  // };
-
+// ----------------------------------------- Frontend Code -------------------------------------------------
   render() {
     return (
       <div className="container">

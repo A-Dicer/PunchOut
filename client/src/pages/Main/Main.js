@@ -6,15 +6,11 @@ import User from "../../components/User";
 class Main extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            
-        }
+        this.state = {}
+    }
 
-    }
     // when component mounts get user by params in URL
-    componentDidMount() {
-        this.getUser(this.props.match.params.id); 
-    }
+    componentDidMount() {this.getUser(this.props.match.params.id)}
 
 // -------------------------------------------- getUser ----------------------------------------------------
 //Get user by ID and check to make sure signed in and only on there personal page
@@ -28,28 +24,25 @@ class Main extends Component {
         ).catch(err => console.log(err));
     };
 
-// ------------------------------------------ Fontend Code -------------------------------------------------
+// ------------------------------------------ Frontend Code ------------------------------------------------
 
     render() {
-    return (
-        <div className="container">
-            <div className="row" id="outer">
-                <div className="col-lg-6 ">
-                { this.state.user
-                    ? <User user={this.state.user}/>
-                    : <h4 className="text-center"> You have used an incorrect ID </h4>
-                }
-                </div>
-                <div className="col-lg-6 ">
-                  
-                </div>
-                <div className="col-12">
-                  
-                </div>
-            </div>     
-      </div>          
-    );
-  }
+        return (
+            <div className="container">
+                <div className="row" id="outer">
+                    <div className="col-lg-6 ">
+                    { this.state.user
+                        ? <User user={this.state.user}/>
+                        : <h4 className="text-center"> You have used an incorrect ID </h4>
+                    }
+                    </div>
+                    <div className="col-lg-6 ">
+                    {/*The splitter goes here */}
+                    </div>
+                </div>     
+            </div>          
+        );
+    }
 }
 
 export default Main;
