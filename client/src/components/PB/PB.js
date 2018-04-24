@@ -5,7 +5,7 @@ const PB = props =>
    
     <div className="row pb">
         <div className="col-4">
-            <img className="gameCover" src={ require("../../components/PB/" + props.img)} alt="Card cap" /> 
+            {/* <img className="gameCover" src={ require("../../components/PB/" + props.img)} alt="Card cap" />  */}
         </div>
         <div className="col-8 text-left ">
             <h5 className="pbTitle">{props.title}</h5>

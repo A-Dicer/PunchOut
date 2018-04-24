@@ -111,11 +111,10 @@ db.users.update({ "_id" : ObjectId("5a4f5dba32f2ccd6fea32198") }, { $set: { "inR
 db.races.update({ "_id" : ObjectId("5a65bdd177814763a95ff2f0") }, { $set: { "category": { "difficulty": "Easy", "location": "All", "boss": false, "startTime": 1516737620686  }}} )
 
 db.users.update(
-    { "_id" : ObjectId("5ad273388d52387db5b1a084") }, 
+    { "_id" : ObjectId("5ad9508fb772e8cf724499bc") }, 
         { $set: { 
             "splits": { 
-                "mtpo":  [ ObjectId("5acf8eb59872806d554c3ed3")],
-                "spo":  [ ObjectId("5acf8eb59872806d554c3ed3")],
+                "mtpo":  [ ObjectId("5ad93dbaa79643ce5b21062b")],
                 "powii":  [ ObjectId("5acf8eb59872806d554c3ed3"), ObjectId("5acfbd3fd3d18c7049a9a7b7") ] 
             }
         } 

@@ -1,0 +1,39 @@
+.fighterIcon {
+    width: 25px;
+    margin-left: -7px;
+}
+
+.fighterRow {
+    border: solid #000 1px;
+    height: 30px;
+    font-size: 15px;
+    background-color: #ccc;
+}
+
+.newTimeInput, .newTimeInput:disabled, .newTimeInput:focus {
+    border: none;
+    padding: 0;
+    background: none; 
+    border-radius: 0;
+    box-shadow: none;  
+} 
+
+.blah {
+    padding-top: 2px;
+    margin-right: 3px; 
+}
+
+.dark {
+    background-color: rgb(176, 176, 176);
+}
+
+.key {
+    background-color: #fff;
+}
+
+.current{
+    background: 
+        linear-gradient(to bottom right, 
+        rgba(67, 154, 220), 
+        rgb(89, 140, 177))
+}

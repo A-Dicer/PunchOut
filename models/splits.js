@@ -12,7 +12,7 @@ const splitsSchema = new Schema({
     time: { type: String },
     splits: [{ 
         _id: false,
-        fighter: [{ type: Schema.Types.ObjectId, ref: 'Fighters' }],
+        fighter: { type: Schema.Types.ObjectId, ref: 'Fighters' },
         pb:{ 
             KD1: { type: Number},
             KD2: { type: Number},

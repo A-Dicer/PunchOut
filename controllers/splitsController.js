@@ -7,7 +7,7 @@ module.exports = {
     if (req.user) {
       db.Splits.find(req.query)
         .populate({path: 'game.id', select: '-categories -title'})
-        .populate({path: 'splits.fighter', select: '-_id'})
+        .populate({path: 'splits.fighter'})
         .then(dbModel => res.json({results: dbModel, sess: req.session}))
         .catch(err => res.status(422).json(err));
     } else { res.json({ error: "Please login", statusCode: 401 }) }
@@ -18,7 +18,7 @@ module.exports = {
     if (req.user) {
       db.Splits.findById(req.params.id)
         .populate({path: 'game.id', select: '-categories -title'})
-        .populate({path: 'splits.fighter', select: '-_id'})
+        .populate({path: 'splits.fighter'})
         .then(dbModel => res.json({results: dbModel, sess: req.session}))
         .catch(err => res.status(422).json(err));
     } else { res.json({ error: "Please login", statusCode: 401 }) }
