@@ -10,20 +10,9 @@ const splitsSchema = new Schema({
     },
     category: { type: String },
     time: { type: String },
-    splits: [{ 
-        _id: false,
-        fighter: { type: Schema.Types.ObjectId, ref: 'Fighters' },
-        pb:{ 
-            KD1: { type: Number},
-            KD2: { type: Number},
-            time: { type: Number},
-        },
-        gold:{ 
-            KD1: { type: Number},
-            KD2: { type: Number},
-            time: { type: Number},
-        }
-    }] 
+    fighters: [{ type: Schema.Types.ObjectId, ref: 'Fighters' }],
+    pb:[{ KD1: { type: Number}, KD2: { type: Number}, time: { type: Number}}],
+    gold:[{ KD1: { type: Number}, KD2: { type: Number}, time: { type: Number}}] 
 });
 
 const Splits = mongoose.model("Splits", splitsSchema);

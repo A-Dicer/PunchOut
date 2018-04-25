@@ -86,13 +86,22 @@ db.Rinfo.insert({
 })
 
 db.splits.insert({
-    user: ObjectId("5ab9940ad5d1fb01e881a2d1"),
-    game: ObjectId("5ab975e0af67235b3dfef53a"), 
-    category: "Any%",
+     _id: newObject("5acfbd3fd3d18c7049a9a7b7"), user: "SonicScrewdrivr", game: { id: "5ad93dbaa79643ce5b210629", title: "Punch-Out!! (Wii)"}, category: "Contender%", time: "23:11.03",
     splits: [
-     {fighter: ObjectId("5ab975e0af67235b3dfef53b"), pb: { KD1: 0, KD2: 0, time: 0}, gold: { KD1: 0, KD2: 0, time: 0}},
-     {fighter: ObjectId("5ab975e0af67235b3dfef53c"), pb: { KD1: 0, KD2: 0, time: 0}, gold: { KD1: 0, KD2: 0, time: 0}},
-    ],
+     {fighter: "5ab975e0af67235b3dfef53b", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef53c", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef53d", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef53e", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef53f", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef540", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef541", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef542", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef543", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef544", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef545", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef546", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+     {fighter: "5ab975e0af67235b3dfef547", pb: { KD1: 0, KD2: 0, time: 30.5}, gold: { KD1: 0, KD2: 0, time: 30.5}},
+    ]},
 })
 
 

@@ -17,6 +17,7 @@ export default {
 //-------------------------------------- Splits Api ------------------------------------
   getSplit: function(id) {return axios.get("/api/splits/" + id)}, // Gets splits with the given id
   saveNewSplits: function(splitData) {return axios.post("/api/splits", splitData)}, // Saves new splits to the database
+  updateSplit: function(id, info){return axios.put("/api/splits/" + id, info)}, // updates when you "save" a split
 
 //---------------------------------------- Auth Api ------------------------------------
   twitchAuth: function(){return axios.get("/api/auth/twitch")}, // Login with Twitch
