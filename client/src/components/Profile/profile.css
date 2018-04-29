@@ -59,13 +59,9 @@
 } 
 
 .bestInfo {
-    height: 410px;
+    height: 0px;
     transition: height 500ms;
     overflow: hidden;
-}
-
-.bestInfo.height {
-    height: 0;
 }
 
 .options {
@@ -73,10 +69,6 @@
     transition: height 500ms;
     overflow: hidden;
     margin: -25px -8px 0;
-}
-
-.options.height {
-    height: 170px;
 }
 
 .head {

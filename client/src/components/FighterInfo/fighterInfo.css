@@ -1,0 +1,48 @@
+.fighterInfo {
+  height: 151px;
+  border-bottom: solid #000 2px;
+  color: #fff;
+  background: 
+    linear-gradient(
+      to bottom right, 
+      rgb(150, 150, 150), 
+      rgb(215, 216, 216)
+  );
+  background-image: url("../../assets/img/games/mtpo/bgRing.png");
+  overflow: hidden;
+}
+
+.fighterInfo .row {
+  
+}
+.bgRing {
+  position: absolute;
+  height: 149px;
+  left: 0px;
+
+}
+
+.fighterInfoImg {
+  height: 150px;
+}
+
+.splitData {
+  height: 150px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.splitData h3  {
+  border-bottom: solid #ccc 1px;
+  margin: 5px 0 20px;
+}
+
+.splitData p {
+  border: solid #000 1px;
+  border-right: none;
+  background: #fff;
+  color: #000;
+  padding: 1px 5px;
+  border-radius: 5px 0 0 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+}

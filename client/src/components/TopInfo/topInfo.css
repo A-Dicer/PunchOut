@@ -1,0 +1,9 @@
+.topInfo {
+  height: 75px;
+  border-bottom: solid #000 2px;
+  color: #fff;
+  background: linear-gradient( to bottom right, #2B2B2B, #919191)}
+
+.topImg {height: 65px; margin: -6px 30px; border: solid #fff 1px}
+
+.topInfoRow {padding: 10px}

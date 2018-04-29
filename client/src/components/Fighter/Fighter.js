@@ -16,10 +16,10 @@ const disableCheck = (round, currentRound) => {
 const Fighter = props => 
    
 <div className={bg(props.i, props.currentRound)}>
-    <div className="col-1">
-        <img className="fighterIcon" src={require("./" + props.fighter.icon)} alt="Card cap" /> 
+    <div className="col-1 iconHolder">
+        <img className="fighterIcon" src={require("../../assets/" + props.fighter.icon)} alt="Card cap" /> 
     </div>
-    <div className="col-5 text-left fighterName" id="">
+    <div className="col-5 text-left fighterName" >
         {props.fighter.fighter}
     </div>
     <div className="col-2 newTime" id="">

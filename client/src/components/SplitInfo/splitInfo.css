@@ -1,0 +1,48 @@
+.splitInfo {
+  height: 391px;
+  background: 
+    linear-gradient(
+      to bottom right, 
+      #919191,
+      #2B2B2B
+  ); 
+  overflow: hidden;
+  border-bottom: solid #000 2px;  
+  font-weight: bold;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.splitInfo .row {
+  border-top: solid rgb(67, 67, 67) 1px;
+  height: 30px;
+  font-size: 15px;
+  background-color: #ccc;
+  padding: 0 0;
+  border-bottom: solid #000 1px;
+  border-top: solid #000 1px;
+}
+
+.splitInfo .col-3 {
+  padding: 2px 5px;
+}
+
+.splitInfo .col-5 {
+  padding-top: 2px;
+  padding-right: 0;
+}
+
+.fighterIconSplit {
+  height: 28px;
+  padding: 0;
+  margin: 0;
+  border-right: solid #000 1px;
+  
+}
+
+.splitInfo .col-1 {
+  /* overflow: hidden; */
+  padding: 0;
+  margin: 0;
+  
+}

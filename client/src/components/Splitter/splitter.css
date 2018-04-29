@@ -1,0 +1,10 @@
+.splitterContainer {
+    border: solid #000 2px;
+    min-width: 300px;
+    width: 400px;   
+    margin: 20px auto;
+    opacity: 0;
+    overflow: hidden;
+    transition: 1000ms;
+    box-shadow:4px 4px 13px 0px #00000078;
+}

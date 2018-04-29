@@ -35,9 +35,9 @@
 
 .controlFighter {
     position: relative;
-    width: 323px;
+    height: 150px;
     top: -10px;
-    left: -15px;
+    left: -16px;
 }
 
 .fighterTitle {
@@ -47,8 +47,8 @@
     margin-bottom: -35px;  
     background: linear-gradient(
         to bottom right, 
-        rgb(22, 22, 24, .5), 
-        rgb(99, 104, 111, .5)
+        #16161880, 
+        #63686f80
     ); 
 }
 
@@ -56,7 +56,7 @@
 
 #controlTop {
     border: solid #000 1px;
-    background-image: url("./bgControl.jpg");
+    background-image: url("../../assets/img/games/mtpo/bgRing.png");
     background-size: 100%;
     overflow: hidden;
     height: 150px;
@@ -88,3 +88,15 @@
 .fighterName{padding: 3px; margin: 0 }
 
 #topInfo { opacity: 1; transition: 1500ms }
+
+.behind {
+    color: rgb(210, 56, 0);
+}
+
+.gold {
+    color: rgb(4, 0, 218);
+}
+
+.ahead {
+    color: rgb(3, 122, 29);
+}

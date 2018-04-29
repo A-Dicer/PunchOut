@@ -6,6 +6,9 @@ import FighterTop from "../../components/FighterTop";
 import GameSelect from "../../components/GameSelect";
 import "./controls.css";
 
+const io = require('socket.io-client')  
+const socket = io() 
+
 class Controls extends Component {
     constructor(props) {
         super(props);
@@ -19,16 +22,23 @@ class Controls extends Component {
             }, 
 
             splits: {
-                topInfo: { game: '', category: '', gameImg: '' },
+                topInfo: {},
                 started: false,
                 pb: [],
                 cs: [],
                 gold: [],
-                delta: [],
+                positions: [],
+                display: [],
                 fighters: [],
-                botInfo:  { time: null, sob: null, pace: null, prev: null},
+                botInfo:  { time: "0.00", sob: "-", pace: '-', prev: '-'},
                 round: 0,
-                done: false         
+                done: false,
+                options: {
+                    gameInfo: false,
+                    fightInfo: false,
+                    individualInfo: false,
+                    splitTimes: false,
+                }        
             },
             
             newSplits: false, 
@@ -46,7 +56,25 @@ class Controls extends Component {
         }
     }
 
-    componentDidMount() { this.getGames() };
+    componentDidMount() { 
+        this.getGames() 
+        this.updateSplitter(this.state.splits)
+    };
+
+    componentWillUnmount(){
+        this.updateSplitter({splits: []})
+    }
+
+   updateSplitter = () => {
+       let splits = Object.assign({}, this.state.splits);
+        splits.options.gameInfo = this.state.user.options.gameInfo
+        splits.options.fightInfo = this.state.user.options.fightInfo
+        splits.options.individualInfo = this.state.user.options.individualInfo
+        splits.options.splitTimes = this.state.user.options.splitTimes
+
+        socket.emit('updateSplitter', splits, this.state.user.userName)
+        }
+
 
 // ------------------------------------------- getGames ----------------------------------------------------
 //grabs game data from server
@@ -57,23 +85,20 @@ class Controls extends Component {
         ).catch(err => console.log(err));
     };
 
-// ----------------------------------------- updatetUser ---------------------------------------------------
-//grabs data from server based on user ID
-
-    // updateUser = (id, info) => {
-    //     API.updateUser(id, info)
-    //         .then(res => { 
-    //             //code to update socket.io
-    //         }
-    //     ).catch(err => console.log(err));
-    // }
-
 // ------------------------------------------ gameSelect----------------------------------------------------
 //Sets the state to what game was selected
 
     gameSelect = event => {
         const { value, title, id} = event.target;
-        this.setState({gameTitle: [value, id, title] })
+        this.setState({gameTitle: [value, id, title], gameCategory: ''})
+
+        let splits = Object.assign({}, this.state.splits);
+        splits.topInfo.game = value
+        splits.topInfo.gameImg = this.state.games[id].img
+        splits.topInfo.category = ''
+
+        this.setState({splits: splits})
+        this.updateSplitter(splits)
     };
 
 // ------------------------------------------- catSelect ---------------------------------------------------
@@ -82,6 +107,12 @@ class Controls extends Component {
     catSelect = event => {
         const {value} = event.target;
         this.setState({gameCategory: value })
+
+        let splits = Object.assign({}, this.state.splits);
+        splits.topInfo.category = value
+       
+        this.setState({splits: splits})
+        this.updateSplitter(splits)
     };
 
 // ------------------------------------------- readyCheck --------------------------------------------------
@@ -130,10 +161,12 @@ class Controls extends Component {
         
         setTimeout(function(){
             if(split.length) { 
+                console.log("not new")
                 splitId = split[0]._id 
                 this.state.splitsId = splitId// if the splits are there use its Id
             }
             else {
+                console.log("new split")
                 split = this.state.defSplits[this.state.gameTitle[2]].filter(param => param.category === this.state.gameCategory)
                 splitId = split[0].id
                 this.setState({newSplits: true})      
@@ -143,51 +176,69 @@ class Controls extends Component {
                 .then(res => { 
                     
                     if(this.state.newSplits) {
-                        console.log(res.data.results)
                         let newSplits = Object.assign({}, res.data.results); 
                         newSplits.user = this.state.user.userName
                         delete newSplits._id
 
-
                         API.saveNewSplits(newSplits)
                             .then(res => { 
-                                console.log(res)
                                 let user = Object.assign({}, this.state.user);
                                 user.splits[game].push(res.data._id)
-                                this.setState({user})
-                                this.setState({splitsId: res.data._id})
-                                API.updateUser(this.state.user._id, this.state.user)
+                                
+                                this.setState({splitsId: res.data._id, newSplits: false})
+                                API.updateUser(this.state.user._id, user)
+                                    .then(res => { 
+                                        API.getUser(this.state.user._id)
+                                            .then(res => { 
+                                                    this.setState({user: res.data.results})  
+                                            }).catch(err => console.log(err));
+                                        
+                                }).catch(err => console.log(err));
+                                    
                             }).catch(err => console.log(err));
                     }
 
                     let splits = Object.assign([], this.state.splits); //grab split info from state
-                   
-                     
-                    splits.topInfo.game = this.state.gameTitle[0]
-                    splits.topInfo.category = this.state.gameCategory
-                    splits.topInfo.gameImg = this.state.games[this.state.gameTitle[1]].img
+                    // input all info into the display splits
+                    splits.topInfo.game = this.state.gameTitle[0] // add game title
+                    splits.topInfo.category = this.state.gameCategory // add category
 
-                    splits.pb = res.data.results.pb
-                    splits.fighters = res.data.results.fighters
-                    splits.gold = res.data.results.gold
-
-                    splits.botInfo.time = "0.00"
-                    splits.botInfo.prev = "-"
-                    splits.botInfo.pace = res.data.results.time
-                    res.data.results.pb.map((i => splits.cs.push({KD1: '', KD2: '', time: ''}))) //create blank splits to fill
                     
-              
-                    setTimeout(this.botInfo, 500)
-                   
-
-                    splits.started = true
+                    splits.fighters = res.data.results.fighters // add fighters
+                    splits.pb = res.data.results.pb // add personal best
+                    splits.gold = res.data.results.gold // add gold times
+   
+                    res.data.results.pb.map(((split, i) => (
+                        splits.cs.push({KD1: '', KD2: '', time: ''}),
+                        splits.display.push({
+                            visable: true,
+                            fighter: res.data.results.fighters[i],
+                            delta: '',
+                            time: ''
+                        }),
+                        splits.positions.push({ gold:'', prev: '', delta: ''})
+                    ))) //create blank splits and blank data for the splitter display
                     
-                    this.setState({splits: splits, topVis: { opacity: 1}})
+                    res.data.results.time === "00:00.00"
+                    ? splits.botInfo.pace = "-"
+                    : splits.botInfo.pace = res.data.results.time // set pace i guess
                     
+                    let sob = 0;
+                    res.data.results.pb[0].time === null
+                    ? splits.botInfo.sob = "-"
+                    : (
+                        splits.gold.map(split => (sob += this.timeInvert(split.time))), // get some of best
+                        splits.botInfo.sob = this.timeConvert(sob)
+                    )
                     
+                    splits.started = true // change started to true
+                    this.setState({splits: splits, topVis: { opacity: 1}}) // update splits in state and fade in
+    
+                    // setTimeout(this.botInfo, 100) // find out sob
+                    setTimeout(this.updateSplitter, 200)
                 }
-            ).catch(err => console.log(err));
-    }.bind(this), 2000)
+            ).catch(err => console.log(err));        
+        }.bind(this), 2000)  
     };
 
 // --------------------------------------------- expand ----------------------------------------------------
@@ -212,45 +263,11 @@ class Controls extends Component {
    
     save = () => {
         let splits = Object.assign({}, this.state.splits); 
-        let info = []
+        let info =  {time: splits.botInfo.time, pb: splits.cs} // set info to be updated
         
-        for(let i = 0; i < splits.pb.length; i++){
-            info.push(
-                {
-                    KD1: this.timeInvert(splits.cs[i].KD1), 
-                    KD2: this.timeInvert(splits.cs[i].KD2), 
-                    time: this.timeInvert(splits.cs[i].time)
-                }
-            )
-        }
-        splits.pb = info
-        
-       
-            this.savePb(splits)
-
-        
-        
-        
-    };
-//------------------------------------------
- savePb = (data) => {
-
-    console.log("save pb")
-        console.log(data)
-        console.log("--------")
-        
-        let test =  {
-            time: data.botInfo.time,
-            pb: data.pb
-        }
-
-        console.log(test)
-    API.updateSplit(this.state.splitsId, test)
-    .then(res => { 
-
+        API.updateSplit(this.state.splitsId, info).catch(err => console.log(err)) //update database on server
+        this.setState({dataSaved: true}) // let user know it was saved
     }
-).catch(err => console.log(err));
- }
 
 // ------------------------------------------- submitTime -------------------------------------------------
    
@@ -264,18 +281,30 @@ class Controls extends Component {
     next = event => { 
         let splits = Object.assign({}, this.state.splits);
         
-        this.goldCheck()
-        this.time()
+        this.goldCheck() // check to see if its the fastest time ever done
 
-        splits.pb[splits.round].time === null
-        ? splits.delta[splits.round] = "-"
-        : ( this.botInfo(), this.delta())
+        this.time() // get the completed time for the current run
+
+        // remove rounds as needed from display
+        if(splits.round > 6 && splits.round < (splits.cs.length - 6)) splits.display[splits.round - 7].visable = false 
+        
+        let newTime = this.timeInvert(splits.cs[splits.round].time)
+        splits.display[splits.round].time = this.timeConvert(newTime) // add time to display
+
+
+        splits.pb[splits.round].time === null // make sure there are splits to actually check
+        ? splits.display[splits.round].delta = "-" // if there aren't... place "-" in the delta
+        : ( this.botInfo(), this.delta()) // else get all the info for the page
+
+        this.goldCheck() // check to see if its the fastest time ever done
 
         setTimeout(function(){
-            splits.round +1 >= splits.cs.length
+            splits.round +1 >= splits.cs.length // check to see if its done
             ? this.end()
-            : (splits.round = splits.round +1, this.setState({splits: splits}))
+            : (splits.round = splits.round +1, this.setState({splits: splits})) // if not ++round 
         }.bind(this), 100)
+
+        setTimeout(this.updateSplitter, 200)
         
     };
 
@@ -294,35 +323,40 @@ class Controls extends Component {
         if (this.state.expandState) this.expand();
 
         let splits = Object.assign({}, this.state.splits); 
+       
         splits.round = 0
 
         splits.pb = []
         splits.cs = []
         splits.gold = []
-        splits.delta = []
+        splits.display = []
         splits.fighters = []
+        splits.positions = []
         
         splits.started = false
         splits.done = false
+        splits.dataSaved = false
 
-        splits.game = ""
-        splits.category = ""
-        splits.gameImg = ""
-
-        splits.botInfo.prev = ""
-        splits.botInfo.time = ""
-        splits.botInfo.sob = ""
-        splits.botInfo.pace = ""
+        splits.botInfo.prev = "-"
+        splits.botInfo.time = "0.00"
+        splits.botInfo.sob = "-"
+        splits.botInfo.pace = "-"
         
-        this.setState({splits: splits});
+        this.setState({splits: splits, topVis: { opacity: 1}})
+        setTimeout(this.resetUpdate, 50)
+        
     };
+
+    // set a timeout to insure that the data sent clears out on splitter 
+    resetUpdate = () => {
+        this.updateSplitter(this.state.splits);
+    }
 
 // ----------------------------------------------- time -----------------------------------------------------
    
     time = () => {
         let splits = Object.assign({}, this.state.splits); 
         let time = 0;
-
             splits.cs.map(split => (
                 split.time
                 ? time += this.timeInvert(split.time)
@@ -330,9 +364,7 @@ class Controls extends Component {
             ))
             
             splits.botInfo.time = this.timeConvert(time)
-
-            this.setState({splits: splits}); 
-            console.log(this.state.splits)  
+            this.setState({splits: splits});  
         }
 
 // ----------------------------------------------- botInfo --------------------------------------------------
@@ -341,56 +373,59 @@ class Controls extends Component {
         let splits = Object.assign({}, this.state.splits); 
         let sob = 0; let pace = 0; let prev = [];
         
-        if(splits.pb[splits.round].time !== null){
+        //make sure there are pb splits to check 
+        if(splits.pb[splits.round].time !== null){ 
             
-            splits.gold.map(split => (sob += split.time))
-            
+            splits.gold.map(split => (sob += this.timeInvert(split.time))) // get some of best
+
             if(splits.cs[splits.round].time){
-                console.log(splits.cs[splits.round])
+                let cs = this.timeInvert(splits.cs[splits.round].time)
+                let pb = this.timeInvert(splits.pb[splits.round].time)
 
-            this.timeInvert(splits.cs[splits.round].time) <= splits.pb[splits.round].time
-            ? ( 
-                prev = [splits.pb[splits.round].time - this.timeInvert(splits.cs[splits.round].time), "-"],
-                pace = this.timeInvert(splits.botInfo.pace) - prev[0]
-            )
-            : ( 
-                prev = [this.timeInvert(splits.cs[splits.round].time) - splits.pb[splits.round].time, "+"],
-                pace = this.timeInvert(splits.botInfo.pace) + prev[0] 
-            )
-           
+                cs <= pb
+                ? ( 
+                    prev = [pb - cs, "-"],
+                    pace = this.timeInvert(splits.botInfo.pace) - prev[0]
+                )
+                : ( 
+                    prev = [cs - pb, "+"],
+                    pace = this.timeInvert(splits.botInfo.pace) + prev[0] 
+                )
+                
+                prev[1] === "+"
+                ? splits.positions[splits.round].prev = "behind"
+                : splits.positions[splits.round].prev = "ahead"
 
-            splits.botInfo.pace = this.timeConvert(pace)
-            splits.botInfo.prev = prev[1] + this.timeConvert(prev[0])
-            splits.botInfo.sob = this.timeConvert(sob)
-            
-            // this.setState({splits: splits});
+                splits.botInfo.pace = this.timeConvert(pace)
+                splits.botInfo.prev = prev[1] + this.timeConvert(prev[0])
+                splits.botInfo.sob = this.timeConvert(sob)
+                
+                this.setState({splits: splits});
             }
-        } else {
-            splits.botInfo.pace = "-"
-            splits.botInfo.sob = "-"
-        }
+        }    
     }
 
 // ------------------------------------------------ delta ---------------------------------------------------
    
     delta = () => {
         let splits = Object.assign({}, this.state.splits); 
-        let csTime = 0; let pbTime = 0; let delta = 0;
+        let csTime = 0; let pbTime = 0; let delta = 0; 
 
         for(var i = 0; i <= splits.round; i++){
-            csTime += this.timeInvert(splits.cs[i].time);
-            pbTime += splits.pb[i].time
+            csTime += this.timeInvert(splits.cs[i].time); // add cs to this point
+            pbTime += this.timeInvert(splits.pb[i].time); // add pb to this point
         }
          
-         csTime <= pbTime
-         ? delta = [pbTime - csTime, "-"]
+         csTime <= pbTime // if current splits are less than presonal best
+         ? delta = [pbTime - csTime, "-"] // <----------------------------
          : delta = [csTime - pbTime, "+"]
 
-         console.log(csTime)
-         console.log(pbTime)
+         delta[1] === "+"
+         ? splits.positions[splits.round].delta = "behind"
+         : splits.positions[splits.round].delta = "ahead"
 
-         console.log(delta)
-         splits.delta[splits.round] = delta[1] + this.timeConvert(delta[0])
+         splits.display[splits.round].delta = delta[1] + this.timeConvert(delta[0])
+         
          this.setState({splits: splits});
     }
 
@@ -400,31 +435,25 @@ class Controls extends Component {
     goldCheck = () => {
         let splits = Object.assign({}, this.state.splits); 
         
-       if(splits.gold[splits.round].time === null) {
-           splits.gold[splits.round] = { KD1: this.timeInvert(splits.cs[splits.round].KD1), KD2: this.timeInvert(splits.cs[splits.round].KD2), time: this.timeInvert(splits.cs[splits.round].time)}
-        
-           this.saveGold(splits.gold);
-       }
-       else {
-           if( this.timeInvert(splits.cs[splits.round].time) < splits.gold[splits.round].time) {
-            splits.gold[splits.round] = { KD1: this.timeInvert(splits.cs[splits.round].KD1), KD2: this.timeInvert(splits.cs[splits.round].KD2), time: this.timeInvert(splits.cs[splits.round].time)}
-               this.saveGold(splits.gold);
-           }
-       }      
-        this.setState({splits: splits});
-    }
-
-// --------------------------------------------- saveGold ---------------------------------------------------
-   
-    saveGold = (data) => {
-        console.log("save Gold")
-        let info =  {$set: { gold: data}}
-        
-        API.updateSplit(this.state.splitsId, info)
-            .then(res => { 
-                console.log(res)
+        if(splits.gold[splits.round].time === null) {
+           splits.gold[splits.round] = { 
+                KD1: splits.cs[splits.round].KD1, 
+                KD2: splits.cs[splits.round].KD2, 
+                time: splits.cs[splits.round].time
             }
-        ).catch(err => console.log(err));
+            API.updateSplit(this.state.splitsId, {gold: splits.gold}).catch(err => console.log(err));
+        } else {
+           if( this.timeInvert(splits.cs[splits.round].time) < this.timeInvert(splits.gold[splits.round].time)) {
+            splits.gold[splits.round] = { 
+                KD1: splits.cs[splits.round].KD1,
+                KD2: splits.cs[splits.round].KD2, 
+                time:splits.cs[splits.round].time
+            }
+            API.updateSplit(this.state.splitsId, {gold: splits.gold}).catch(err => console.log(err));
+            splits.positions[splits.round].gold = "gold"
+           }           
+        }      
+        this.setState({splits: splits});
     }
 
 //-------------------------------------------- TimeConvert -------------------------------------------------
@@ -456,7 +485,6 @@ class Controls extends Component {
         let splits = Object.assign({}, this.state.splits); 
         splits.done = true
         this.setState({topVis: { opacity: 0}, splits: splits} )
-        console.log("end")
     }
     
 // ------------------------------------------ Frontend Code ------------------------------------------------

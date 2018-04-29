@@ -8,7 +8,7 @@ const FighterTop = props =>
         <h4 className="">{props.fighter.fighter}</h4>  
     </div>
     <div className="col-6">
-        <img className="controlFighter" src={require("./" + props.fighter.img)} alt="Card cap" /> 
+        <img className="controlFighter" src={require("../../assets/" + props.fighter.img)} alt="Card cap" /> 
     </div>
     <div className="col-6">
         <div className="row">

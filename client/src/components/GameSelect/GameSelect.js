@@ -7,7 +7,7 @@ const GameSelect = props =>
 <div className="row" id="gameSelect">
     <div className="col-12">      
         <div className="form-group" name="gameOptions" htmlFor="gameOptions" value="gameOptions" onChange={props.gameSelect} >
-            <label>Game Selected: {props.gameTitle[0]}</label><br />
+            <label id="gameSelcet">Game Selected: {props.gameTitle[0]}</label><br />
             { props.games.map((item, i) => ( 
                 <Game key={item._id} id={i} abv={item.abv} title={item.title} img ={item.img} />
             )) }
