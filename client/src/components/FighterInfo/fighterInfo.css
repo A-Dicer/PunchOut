@@ -12,9 +12,6 @@
   overflow: hidden;
 }
 
-.fighterInfo .row {
-  
-}
 .bgRing {
   position: absolute;
   height: 149px;
@@ -34,6 +31,7 @@
 .splitData h3  {
   border-bottom: solid #ccc 1px;
   margin: 5px 0 20px;
+  font-size: 25px;
 }
 
 .splitData p {
