@@ -13,7 +13,7 @@ class Login extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    window.location = "https://cryptic-falls-49392.herokuapp.com:3002/api/auth/twitch/callback"; 
+    window.location = "https://cryptic-falls-49392.herokuapp.com/api/auth/twitch/callback"; 
   };
 
 // ----------------------------------------- Frontend Code -------------------------------------------------
