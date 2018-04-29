@@ -13,7 +13,7 @@ class Login extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    window.location = "https://cryptic-falls-49392.herokuapp.com/api/auth/twitch/callback"; 
+    window.location = "/api/auth/twitch/callback"; 
   };
 
 // ----------------------------------------- Frontend Code -------------------------------------------------
@@ -25,7 +25,7 @@ class Login extends Component {
             <div className="row justify-content-center rounded" id="inner">         
               <div className="col-12 text-center">
                 <h3>Punch-Out!! Splitter</h3>
-                <img src={poLogo} className="img-thumbnail" alt="kalimba"/> 
+                <img src={poLogo} className="img-thumbnail" alt="punch-out"/> 
                 <button 
                   type="button" 
                   className="btn btn-danger btn-sm loginBtn" 

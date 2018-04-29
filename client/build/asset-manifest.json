@@ -1,8 +1,8 @@
 {
   "main.css": "static/css/main.4d1a5671.css",
   "main.css.map": "static/css/main.4d1a5671.css.map",
-  "main.js": "static/js/main.6c0236b1.js",
-  "main.js.map": "static/js/main.6c0236b1.js.map",
+  "main.js": "static/js/main.9e8af148.js",
+  "main.js.map": "static/js/main.9e8af148.js.map",
   "static/media/arSpo.png": "static/media/arSpo.b193031d.png",
   "static/media/arWiiCont.png": "static/media/arWiiCont.49ca141a.png",
   "static/media/arWiiDef.png": "static/media/arWiiDef.49ca141a.png",
@@ -19,6 +19,7 @@
   "static/media/dfWiiDef.png": "static/media/dfWiiDef.2cf232d1.png",
   "static/media/dkWiiCont.png": "static/media/dkWiiCont.c2a1b17a.png",
   "static/media/dkWiiDef.png": "static/media/dkWiiDef.ee53bef4.png",
+  "static/media/error.jpg": "static/media/error.6f29abe3.jpg",
   "static/media/gjPo.png": "static/media/gjPo.a497bfec.png",
   "static/media/gjSpo.png": "static/media/gjSpo.ff07bc1e.png",
   "static/media/gjWiiCont.png": "static/media/gjWiiCont.e800b62e.png",
