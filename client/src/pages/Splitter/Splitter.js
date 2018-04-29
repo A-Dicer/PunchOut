@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import API from "../../utils/API";
-import Icon from "../../components/Icon";
 import TopInfo from "../../components/TopInfo";
 import FighterInfo from "../../components/FighterInfo";
 import SplitInfo from "../../components/SplitInfo";
@@ -25,8 +23,9 @@ class Splitter extends Component {
         this.setState({splits: payload})
       }
 
-    // when component mounts get user by params in URL
+    
     componentWillMount() {document.body.style.background = "none"}
+
 
 // -------------------------------------------- gameCheck ---------------------------------------------------
 // Toggles information on by adding or removing height class

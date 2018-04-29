@@ -17,7 +17,7 @@ const GameSelect = props =>
         <div className="form-group" name="categoryRadios" onChange={props.catSelect}>
             <label>Select Category:</label>
             { props.gameTitle
-                ?   props.games[props.gameTitle[1]].categories.map((item, i) => (          
+                ? props.games[props.gameTitle[1]].categories.map((item, i) => (          
                         <Category key={item + i} title={item} />
                     )) 
                 :null

@@ -72,7 +72,7 @@ class Controls extends Component {
         splits.options.individualInfo = this.state.user.options.individualInfo
         splits.options.splitTimes = this.state.user.options.splitTimes
 
-        socket.emit('updateSplitter', splits, this.state.user.userName)
+        socket.emit('updateSplitter', splits, this.state.user.username)
         }
 
 
@@ -152,17 +152,16 @@ class Controls extends Component {
 // -------------------------------------------- startRun ---------------------------------------------------
 //starts the run
     startRun = () => {
-        let splitId
-      
+        let splitId // will need an id to match with splits 
         const game = this.state.games[this.state.gameTitle[1]].abv // game title abv....
         let split = this.state.user.splits[game].filter(param => param.category === this.state.gameCategory)
      
-        this.setState({topVis: { opacity: 0}})
+        this.setState({topVis: { opacity: 0}}) // fade out game select
         
         setTimeout(function(){
             if(split.length) { 
                 splitId = split[0]._id 
-                this.state.splitsId = splitId// if the splits are there use its Id
+                this.setState({splitsId: splitId}) // if the splits are there use its Id
             }
             else {
                 split = this.state.defSplits[this.state.gameTitle[2]].filter(param => param.category === this.state.gameCategory)
@@ -175,15 +174,18 @@ class Controls extends Component {
                     
                     if(this.state.newSplits) {
                         let newSplits = Object.assign({}, res.data.results); 
-                        newSplits.user = this.state.user.userName
+
+                        newSplits.user = this.state.user.username
                         delete newSplits._id
 
                         API.saveNewSplits(newSplits)
                             .then(res => { 
+                                
                                 let user = Object.assign({}, this.state.user);
                                 user.splits[game].push(res.data._id)
                                 
                                 this.setState({splitsId: res.data._id, newSplits: false})
+                               
                                 API.updateUser(this.state.user._id, user)
                                     .then(res => { 
                                         API.getUser(this.state.user._id)
@@ -191,9 +193,9 @@ class Controls extends Component {
                                                     this.setState({user: res.data.results})  
                                             }).catch(err => console.log(err));
                                         
-                                }).catch(err => console.log(err));
+                                    }).catch(err => console.log(err));
                                     
-                            }).catch(err => console.log(err));
+                                }).catch(err => console.log(err));
                     }
 
                     let splits = Object.assign([], this.state.splits); //grab split info from state
@@ -207,6 +209,7 @@ class Controls extends Component {
                     splits.gold = res.data.results.gold // add gold times
    
                     res.data.results.pb.map(((split, i) => (
+                        // eslint-disable-next-line
                         splits.cs.push({KD1: '', KD2: '', time: ''}),
                         splits.display.push({
                             visable: true,
@@ -222,6 +225,7 @@ class Controls extends Component {
                     : splits.botInfo.pace = res.data.results.time // set pace i guess
                     
                     let sob = 0;
+                    // eslint-disable-next-line
                     res.data.results.pb[0].time === null
                     ? splits.botInfo.sob = "-"
                     : (
@@ -232,8 +236,7 @@ class Controls extends Component {
                     splits.started = true // change started to true
                     this.setState({splits: splits, topVis: { opacity: 1}}) // update splits in state and fade in
     
-                    // setTimeout(this.botInfo, 100) // find out sob
-                    setTimeout(this.updateSplitter, 200)
+                    setTimeout(this.updateSplitter, 100)
                 }
             ).catch(err => console.log(err));        
         }.bind(this), 2000)  
@@ -289,7 +292,7 @@ class Controls extends Component {
         let newTime = this.timeInvert(splits.cs[splits.round].time)
         splits.display[splits.round].time = this.timeConvert(newTime) // add time to display
 
-
+        // eslint-disable-next-line
         splits.pb[splits.round].time === null // make sure there are splits to actually check
         ? splits.display[splits.round].delta = "-" // if there aren't... place "-" in the delta
         : ( this.botInfo(), this.delta()) // else get all the info for the page
@@ -297,6 +300,7 @@ class Controls extends Component {
         this.goldCheck() // check to see if its the fastest time ever done
 
         setTimeout(function(){
+            // eslint-disable-next-line
             splits.round +1 >= splits.cs.length // check to see if its done
             ? this.end()
             : (splits.round = splits.round +1, this.setState({splits: splits})) // if not ++round 
@@ -378,7 +382,7 @@ class Controls extends Component {
             if(splits.cs[splits.round].time){
                 let cs = this.timeInvert(splits.cs[splits.round].time)
                 let pb = this.timeInvert(splits.pb[splits.round].time)
-
+                // eslint-disable-next-line
                 cs <= pb
                 ? ( 
                     prev = [pb - cs, "-"],

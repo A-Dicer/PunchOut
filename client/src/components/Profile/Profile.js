@@ -84,7 +84,7 @@ class User extends Component {
         return (
             <div className="card mb-3">
                 <div className="col-12" id="userImg"> 
-                    <h4 className="card-title text-center userName">{this.state.user.userName}</h4>
+                    <h4 className="card-title text-center userName">{this.state.user.username}</h4>
                     <img className="userBgImg" src={this.state.user.imgLink} alt="Card cap" />   
                     <div className="icon"  onClick={this.logOut}>
                         <Icon  id="fas fa-sign-out-alt signOut" />
@@ -140,7 +140,7 @@ class User extends Component {
                         : null
                         }
                     <br/>
-                    <p className="card-text"><small className="text-muted"> <Icon  id="fas fa-link" /> Your Splitter Link:<br/> <a href={window.location.origin + "/splits/" + this.state.user.userName} target="new">{window.location.origin}/splits/{this.state.user.userName}</a></small></p>
+                    <p className="card-text"><small className="text-muted"> <Icon  id="fas fa-link" /> Your Splitter Link:<br/> <a href={window.location.origin + "/splits/" + this.state.user.username} target="new">{window.location.origin}/splits/{this.state.user.username}</a></small></p>
                 </div>
             </div>
         )

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Icon from "../../components/Icon";
 import TopInfo from "../../components/TopInfo";
 import FighterInfo from "../../components/FighterInfo";
 import SplitInfo from "../../components/SplitInfo";
@@ -15,14 +14,12 @@ class Splitter extends Component {
         this.state = {
             user: this.props.user,
         }
-        socket.on(this.state.user.userName, (payload) => {   
+        socket.on(this.state.user.username, (payload) => {   
             this.updateCodeFromSockets(payload)
         })
     }
 
-    updateCodeFromSockets(payload) {
-        this.setState({splits: payload})
-      }
+    updateCodeFromSockets(payload) {this.setState({splits: payload})}
 
 // -------------------------------------------- gameCheck ---------------------------------------------------
 // Toggles information on by adding or removing height class
@@ -69,9 +66,9 @@ class Splitter extends Component {
                         : null
                     }      
                 </div>
-            )
-            : null
-        }
+                )
+                : null
+            }
             </div>
         )
     }

@@ -7,7 +7,6 @@ const shade = (number, current) => {
     else return ""
 }
 
-
 const SplitInfo = props =>
 
 <div className="splitInfo">
