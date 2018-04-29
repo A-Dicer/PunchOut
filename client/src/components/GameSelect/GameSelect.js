@@ -19,8 +19,8 @@ const GameSelect = props =>
             { props.gameTitle
                 ?   props.games[props.gameTitle[1]].categories.map((item, i) => (          
                         <Category key={item + i} title={item} />
-                    ))
-                :    console.log()
+                    )) 
+                :null
             }
         </div>
         <hr/>

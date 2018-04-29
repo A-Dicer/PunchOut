@@ -99,7 +99,6 @@ class User extends Component {
                         <hr />
                     </div>
                         <div className="row bestInfo" id="bestInfo" style={this.state.bestInfo.style}>
-                        { console.log(this.props)}
                             <div className="col-12">   
                                 {
                                 !this.state.user.splits.mtpo.length && !this.state.user.splits.spo.length && !this.state.user.splits.powii.length
@@ -113,15 +112,15 @@ class User extends Component {
                                     <div> 
                                         {   this.state.user.splits.mtpo.length
                                             ? <PB info={this.state.user.splits.mtpo} title="Mike Tyson's Punch-Out!!" img="/mtpo/mtpoBoxArt.jpg"/>
-                                            : console.log()
+                                            : null
                                         } {
                                             this.state.user.splits.spo.length
                                             ? <PB info={this.state.user.splits.spo} title="Super Punch-Out!!" img="/spo/spoBoxArt.jpg"/>
-                                            : console.log()
+                                            : null
                                         } {
                                             this.state.user.splits.powii.length
                                             ? <PB info={this.state.user.splits.powii} title="Punch-Out!! (Wii)" img="/powii/powiiBoxArt.jpg"/>
-                                            : console.log()
+                                            : null
                                         }
                                     </div>
                                 )
@@ -138,7 +137,7 @@ class User extends Component {
                             <Options  info={this.state.user.options.individualInfo} name="individualInfo" title="Individual Info" action={this.sliderChange}/>
                             <Options  info={this.state.user.options.splitTimes} name="splitTimes" title="Split Times" action={this.sliderChange}/>    
                         </div>
-                        : console.log()
+                        : null
                         }
                     <br/>
                     <p className="card-text"><small className="text-muted"> <Icon  id="fas fa-link" /> Your Splitter Link:<br/> <a href={window.location.origin + "/splits/" + this.state.user.userName} target="new">{window.location.origin}/splits/{this.state.user.userName}</a></small></p>

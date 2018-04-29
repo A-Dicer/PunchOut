@@ -47,24 +47,21 @@ class Splitter extends Component {
                 <div> 
                    { 
                         this.state.splits.options.gameInfo
-                        ? <TopInfo data={this.state.splits.topInfo} /> 
-                        : console.log()
+                        ? <TopInfo data={this.state.splits.topInfo} />  : null
                     }
                     {
                         this.state.splits.options.fightInfo  
-                        ?<FighterInfo data={this.state.splits} />
-                        : console.log()
+                        ? <FighterInfo data={this.state.splits} /> : null
                     }
                     { 
                         this.state.splits.options.individualInfo
-                        ?(
-                        console.log(this.state.splits.positions),
+                        ?
                         <SplitInfo 
                             data={this.state.splits.display} 
                             positions={this.state.splits.positions} 
                             round={this.state.splits.round}
-                        />)
-                        : console.log()
+                        />
+                        : null
                     }
                     {
                         this.state.splits.options.splitTimes
@@ -73,11 +70,11 @@ class Splitter extends Component {
                             positions={this.state.splits.positions} 
                             round={this.state.splits.round}
                         />
-                        : console.log()
+                        : null
                     }     
                 </div>
             )
-            :console.log()
+            :null
         }
             </div>
         )

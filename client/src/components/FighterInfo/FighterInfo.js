@@ -24,14 +24,14 @@ const FighterInfo = props =>
                     src={require("../../assets/img/games/" + image(props.data.topInfo.game) + "/bgRing.png")}
                     alt="Card cap" 
                 />
-            : console.log()
+            :null
         }
     
         <div className="col-4">
             {  
                 props.data.started
                 ?<img className="fighterInfoImg" src={require("../../assets/" + props.data.fighters[props.data.round].img)} alt="Card cap" />
-                :console.log()
+                :null
             }
         </div>
         <div className="col-8 splitData">
@@ -45,17 +45,17 @@ const FighterInfo = props =>
                             {
                                 props.data.pb[props.data.round].time
                                 ?<p> PB: {fightInfo(props.data.pb[props.data.round])}</p>
-                                :console.log()
+                                :null
                             }
                             {
                                 props.data.gold[props.data.round].time
                                 ?<p> Gold: {fightInfo(props.data.gold[props.data.round])}</p>
-                                :console.log()
+                                :null
                             }                       
                         </div>
                     </div>
                 )
-                : console.log()
+                :null
             }
         </div>
     </div>

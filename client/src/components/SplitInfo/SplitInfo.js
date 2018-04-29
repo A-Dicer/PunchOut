@@ -31,9 +31,9 @@ const SplitInfo = props =>
                         {split.time}
                     </div> 
                 </div>     
-            ) : console.log() 
+            ) : null
         ))
-      ) : console.log()
+      ) : null
   }
 </div>
 

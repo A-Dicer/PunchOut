@@ -45,20 +45,20 @@ class Main extends Component {
                         <div className="col-12">
                             { this.state.user
                                 ? <Profile user={this.state.user} refresh={this.refreshUser}/>
-                                : console.log()
+                                : null
                             }
                         </div>
                         <div className="col-12">
                             {this.state.user
                                 ?<Controls user={this.state.user} refresh={this.refreshUser}/>
-                                :console.log()
+                                : null
                             }
                         </div>
                     </div>
                     <div className="col-lg-5">
                     {this.state.user
                                 ?<Splitter user={this.state.user} />
-                                :console.log()
+                                : null
                             }     
                     </div>
                 </div>     

@@ -161,12 +161,10 @@ class Controls extends Component {
         
         setTimeout(function(){
             if(split.length) { 
-                console.log("not new")
                 splitId = split[0]._id 
                 this.state.splitsId = splitId// if the splits are there use its Id
             }
             else {
-                console.log("new split")
                 split = this.state.defSplits[this.state.gameTitle[2]].filter(param => param.category === this.state.gameCategory)
                 splitId = split[0].id
                 this.setState({newSplits: true})      
@@ -359,8 +357,7 @@ class Controls extends Component {
         let time = 0;
             splits.cs.map(split => (
                 split.time
-                ? time += this.timeInvert(split.time)
-                : console.log()  
+                ? time += this.timeInvert(split.time) : null
             ))
             
             splits.botInfo.time = this.timeConvert(time)
@@ -567,7 +564,7 @@ class Controls extends Component {
                                                             currentRound={this.state.splits.round} 
                                                         />
                                                     ))
-                                                :    console.log()
+                                                : null
                                             }
                                         </div>
                                     </div>
