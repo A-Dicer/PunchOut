@@ -7,6 +7,7 @@ const findOrCreate = require('mongoose-findorcreate')
 const userSchema = new Schema({
   twitchId: { type: String },
   userName: { type: String },
+  username: { type: String },
   imgLink: { type: String },
   email: { type: String },
   splits: { 

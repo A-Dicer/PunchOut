@@ -35,7 +35,7 @@ passport.use( new twitchStrategy({
   function(accessToken, refreshToken, profile, done) {
     User.findOrCreate(
       {twitchId: profile.id}, 
-      {userName: profile.displayName, imgLink: profile._json.logo,email: profile.email}, 
+      {userName: profile.displayName, imgLink: profile._json.logo,email: profile.email, username: profile.displayName}, 
       
       function (err, user) {
         return done(err, user);
