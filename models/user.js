@@ -16,7 +16,7 @@ const userSchema = new Schema({
   },
   options: { 
     gameInfo: { type: Boolean, default: true},
-    fightInfo: { type: Boolean, default: false},
+    fightInfo: { type: Boolean, default: true},
     individualInfo: { type: Boolean, default: true},
     splitTimes: { type: Boolean, default: true},
   }
