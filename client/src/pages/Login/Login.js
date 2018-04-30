@@ -13,7 +13,7 @@ class Login extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    window.location = "api/auth/twitch/callback"; 
+    window.location = "https://punch-out.herokuapp.com/api/auth/twitch/callback"; 
   };
 
 // ----------------------------------------- Frontend Code -------------------------------------------------
