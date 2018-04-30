@@ -9,7 +9,7 @@ router.route("/twitch").get(passport.authenticate("twitch")) //twitch sign in
 router.route("/twitch/callback")
 .get(passport.authenticate("twitch", { failureRedirect: "/" }), 
   function(req, res) {
-    res.redirect("http://localhost:3002/Main/" + req.session.passport.user._id);
+    res.redirect("/Main/" + req.session.passport.user._id);
 });
 
 router.route("/logout").get(authController.logout) //logout
