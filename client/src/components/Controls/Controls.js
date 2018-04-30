@@ -84,6 +84,7 @@ class Controls extends Component {
             .then(res => { this.setState({games: res.data.results,})}
         ).catch(err => console.log(err));
     };
+    
 
 // ------------------------------------------ gameSelect----------------------------------------------------
 //Sets the state to what game was selected
@@ -148,14 +149,16 @@ class Controls extends Component {
         }
     };
 
-
 // -------------------------------------------- startRun ---------------------------------------------------
 //starts the run
     startRun = () => {
+        console.log('started')
         let splitId // will need an id to match with splits 
         const game = this.state.games[this.state.gameTitle[1]].abv // game title abv....
+        console.log(this.state.gameCategory)
         let split = this.state.user.splits[game].filter(param => param.category === this.state.gameCategory)
-     
+        
+        console.log(split)
         this.setState({topVis: { opacity: 0}}) // fade out game select
         
         setTimeout(function(){
@@ -170,31 +173,23 @@ class Controls extends Component {
             }
 
             API.getSplit(splitId)
-                .then(res => { 
-                    
+                .then(res => {  
                     if(this.state.newSplits) {
                         let newSplits = Object.assign({}, res.data.results); 
-
                         newSplits.user = this.state.user.username
                         delete newSplits._id
-
                         API.saveNewSplits(newSplits)
-                            .then(res => { 
-                                
+                            .then(res => {             
                                 let user = Object.assign({}, this.state.user);
-                                user.splits[game].push(res.data._id)
-                                
-                                this.setState({splitsId: res.data._id, newSplits: false})
-                               
+                                user.splits[game].push(res.data._id)       
+                                this.setState({splitsId: res.data._id, newSplits: false})            
                                 API.updateUser(this.state.user._id, user)
                                     .then(res => { 
                                         API.getUser(this.state.user._id)
                                             .then(res => { 
                                                     this.setState({user: res.data.results})  
-                                            }).catch(err => console.log(err));
-                                        
-                                    }).catch(err => console.log(err));
-                                    
+                                            }).catch(err => console.log(err));                   
+                                    }).catch(err => console.log(err));                   
                                 }).catch(err => console.log(err));
                     }
 
@@ -230,7 +225,10 @@ class Controls extends Component {
                     ? splits.botInfo.sob = "-"
                     : (
                         splits.gold.map(split => (sob += this.timeInvert(split.time))), // get some of best
-                        splits.botInfo.sob = this.timeConvert(sob)
+                       
+                        splits.topInfo.category === 'Highscore'
+                        ? splits.botInfo.sob = sob
+                        : splits.botInfo.sob = this.timeConvert(sob)
                     )
                     
                     splits.started = true // change started to true
@@ -280,7 +278,9 @@ class Controls extends Component {
 // ----------------------------------------------- next ----------------------------------------------------
    
     next = event => { 
+        console.log("next ==========================")
         let splits = Object.assign({}, this.state.splits);
+        console.log(splits)
         
         this.goldCheck() // check to see if its the fastest time ever done
 
@@ -290,7 +290,10 @@ class Controls extends Component {
         if(splits.round > 6 && splits.round < (splits.cs.length - 6)) splits.display[splits.round - 7].visable = false 
         
         let newTime = this.timeInvert(splits.cs[splits.round].time)
-        splits.display[splits.round].time = this.timeConvert(newTime) // add time to display
+
+        splits.topInfo.category === "Highscore"
+        ? splits.display[splits.round].time = newTime
+        : splits.display[splits.round].time = this.timeConvert(newTime) // add time to display
 
         // eslint-disable-next-line
         splits.pb[splits.round].time === null // make sure there are splits to actually check
@@ -364,8 +367,12 @@ class Controls extends Component {
                 ? time += this.timeInvert(split.time) : null
             ))
             
-            splits.botInfo.time = this.timeConvert(time)
+            splits.topInfo.category === "Highscore"
+            ? (splits.botInfo.time = time, console.log("high time"))
+            : splits.botInfo.time = this.timeConvert(time)
+
             this.setState({splits: splits});  
+            console.log("time finished")
         }
 
 // ----------------------------------------------- botInfo --------------------------------------------------
@@ -392,16 +399,32 @@ class Controls extends Component {
                     prev = [cs - pb, "+"],
                     pace = this.timeInvert(splits.botInfo.pace) + prev[0] 
                 )
-                
-                prev[1] === "+"
-                ? splits.positions[splits.round].prev = "behind"
-                : splits.positions[splits.round].prev = "ahead"
 
-                splits.botInfo.pace = this.timeConvert(pace)
-                splits.botInfo.prev = prev[1] + this.timeConvert(prev[0])
-                splits.botInfo.sob = this.timeConvert(sob)
-                
+                splits.topInfo.category === "Highscore"
+                ?(
+                    prev[1] === "-"
+                   ? splits.positions[splits.round].prev = "behind"
+                   : splits.positions[splits.round].prev = "ahead"
+                ) 
+                : (  
+                    prev[1] === "+"
+                    ? splits.positions[splits.round].prev = "behind"
+                    : splits.positions[splits.round].prev = "ahead"
+                )
+
+                splits.topInfo.category === "Highscore"
+                ?( console.log("highscore bot"),
+                    splits.botInfo.pace = String(pace),
+                    splits.botInfo.prev = String(prev[1] + prev[0]),
+                    splits.botInfo.sob = String(sob)
+                )
+                : (
+                    splits.botInfo.pace = this.timeConvert(pace),
+                    splits.botInfo.prev = prev[1] + this.timeConvert(prev[0]),
+                    splits.botInfo.sob = this.timeConvert(sob)
+                )
                 this.setState({splits: splits});
+                console.log("bot finished")
             }
         }    
     }
@@ -421,13 +444,24 @@ class Controls extends Component {
          ? delta = [pbTime - csTime, "-"] // <----------------------------
          : delta = [csTime - pbTime, "+"]
 
-         delta[1] === "+"
-         ? splits.positions[splits.round].delta = "behind"
-         : splits.positions[splits.round].delta = "ahead"
+        splits.topInfo.category === "Highscore"
+        ?(
+            delta[1] === "-"
+           ? splits.positions[splits.round].delta = "behind"
+           : splits.positions[splits.round].delta = "ahead"
+        ) 
+         :(
+             delta[1] === "+"
+            ? splits.positions[splits.round].delta = "behind"
+            : splits.positions[splits.round].delta = "ahead"
+        )       
 
-         splits.display[splits.round].delta = delta[1] + this.timeConvert(delta[0])
+         splits.topInfo.category === "Highscore"
+         ? (console.log("highscore delta"),splits.display[splits.round].delta = delta[1] + delta[0])
+         : splits.display[splits.round].delta = delta[1] + this.timeConvert(delta[0])
          
          this.setState({splits: splits});
+         console.log("delta finished")
     }
 
 
@@ -444,7 +478,20 @@ class Controls extends Component {
             }
             API.updateSplit(this.state.splitsId, {gold: splits.gold}).catch(err => console.log(err));
         } else {
-           if( this.timeInvert(splits.cs[splits.round].time) < this.timeInvert(splits.gold[splits.round].time)) {
+
+            let gold = false;
+
+            splits.topInfo.category === "Highscore"
+            ?
+                this.timeInvert(splits.cs[splits.round].time) > this.timeInvert(splits.gold[splits.round].time)
+                ? gold = true
+                : null
+            :
+                this.timeInvert(splits.cs[splits.round].time) < this.timeInvert(splits.gold[splits.round].time)
+                ? gold = true
+                : null
+           
+            if(gold) {
             splits.gold[splits.round] = { 
                 KD1: splits.cs[splits.round].KD1,
                 KD2: splits.cs[splits.round].KD2, 
@@ -455,12 +502,14 @@ class Controls extends Component {
            }           
         }      
         this.setState({splits: splits});
+        console.log("gold check finished")
     }
 
 //-------------------------------------------- TimeConvert -------------------------------------------------
 // function for converting the way the time looks
 
      timeConvert = (time) =>{
+         console.log('time convert started')
         let minutes = Math.floor(time/ 60);
         let seconds = time - minutes * 60;
             seconds = seconds.toFixed(2);
@@ -475,6 +524,7 @@ class Controls extends Component {
 // function for converting the way the time looks
 
     timeInvert = (time) =>{
+        console.log("time invert started")
         let newTime = time.split(":")
          
         if(newTime.length === 1) return parseFloat(newTime[0])

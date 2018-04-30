@@ -370,7 +370,7 @@ const splitSeed = [
       user: "Defualt", 
       game: { id: "5ad93dbaa79643ce5b210627", 
       title: "Punch-Out!!"}, 
-      category: "HighScore", 
+      category: "Highscore", 
       time: "000000",
       fighters: [
         "5ad93983f22c74cdb7c7a5ad",
